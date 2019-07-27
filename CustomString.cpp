@@ -269,10 +269,10 @@ int CustomString::len ( ) const
     return length;
 }
 
-CustomString& CustomString::resize (int s) 
+CustomString& CustomString::resize (int size) 
 {
-    char* data = new char[s];
-    int   cont = length < s ? length : s;
+    char* data = new char[size];
+    int   cont = length < size ? length : size;
 
     for (int i = 0; i < cont; i++) {
         data[i] = body[i];
@@ -280,7 +280,7 @@ CustomString& CustomString::resize (int s)
 
     delete[] body;
 
-    length = s;
+    length = size;
     body   = data;
 
     return *this;  

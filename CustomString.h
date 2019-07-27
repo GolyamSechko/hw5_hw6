@@ -68,7 +68,7 @@ public:
      * return -1 if first string is shorter, or the first non-matching character is lowel */
     int compare (const CustomString& st);
     int len ( ) const;
-    CustomString& resize (int s);
+    CustomString& resize (int size);
     CustomString& clear  ();
     void swap (CustomString& st);
     /* return the position of the 1st character, if successfully find a specific substring in the existing one
