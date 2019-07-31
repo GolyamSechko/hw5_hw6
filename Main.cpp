@@ -26,7 +26,7 @@ int main()
     std::cout << "s1.len()-> " << s1.len() << std::endl;
     std::cout << "s1.resize(5)-> " << s1.resize(5) << std::endl;
     std::cout << "s1.len()-> " << s1.len() << std::endl;
-    std::cout << "s1.clear()-> " << s1.clear() << std::endl;
+    std::cout << "s1.clear()" << s1.clear() << std::endl;
     std::cout << "s1.len()-> " << s1.len() << std::endl;
     std::cout << "s4.insert(s5, 2)-> " << s4.insert(s5, 2) << std::endl;
     s4.swap(s5);
@@ -35,8 +35,12 @@ int main()
     std::cout << "s5.compare(s4)-> " << s5.compare(s4) << std::endl;
     std::cout << "s4.compare(s4)-> " << s4.compare(s4) << std::endl;
     std::cout << "s5.substr(s4)-> " << s5.substr(s4) << std::endl;
-    s4.move(s5);
-    std::cout << "s4.move(s5); s4-> " << s4 << " s5-> " << s5 << std::endl;
+    s4 = std::move(s5);
+    std::cout << "s4 = std::move(s5). s4-> " << s4 << " s5-> " << s5 << std::endl;
+    CustomString s6 = std::move(s4);   
+    std::cout << "CustomString s6 = std::move(s4).  s4-> " << s4 << " s6-> " << s6 << std::endl;
+
+    
 
     return 0;
 }

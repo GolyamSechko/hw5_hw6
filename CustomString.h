@@ -17,6 +17,7 @@ public:
     CustomString (char ch);                 // Constructor with single character
     CustomString (const char* ch);          // char* string constructor
     CustomString (const CustomString& st);  // Copy string constructor
+    CustomString (CustomString&& st);       // Move string constructor
     ~CustomString ( );                      // String destructor
 
     // Index value in String
@@ -26,6 +27,9 @@ public:
     // Sets string value
 
     CustomString& operator= (const CustomString& st);
+
+    // Move assignment operator
+    CustomString& operator=(CustomString&& st);
 
     // Append to string
 
@@ -75,7 +79,6 @@ public:
      * return -1 otherwise */
     int substr (const CustomString& st);
     CustomString& insert (const CustomString& st, int pos);
-    void move (CustomString& st);                           // Move string functions
 };
 
 #endif // GS_CUSTOM_STRING_H

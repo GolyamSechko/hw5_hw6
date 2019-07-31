@@ -50,6 +50,31 @@ CustomString::~CustomString ( )
     delete[] body;
 }
 
+
+CustomString::CustomString (CustomString&& st)
+{
+    length = st.length;
+    body   = st.body;
+
+    st.body   = nullptr;
+    st.length = 0;
+}
+
+CustomString& CustomString::operator=(CustomString&& st)
+{
+    if (&st == this) return *this;
+ 
+    delete[] body;
+ 
+    length = st.length;
+    body = st.body;
+
+    st.body   = nullptr;
+    st.length = 0;
+ 
+    return *this;
+}
+
 char CustomString::operator[] (int id) const
 {
     if (id >= length) throw 1;
@@ -351,13 +376,4 @@ CustomString& CustomString::insert (const CustomString& st, int pos)
     body   = data;
 
     return *this;  
-}
-
-void CustomString::move (CustomString& st)
-{
-    length = st.length;
-    body   = st.body;
-
-    st.body   = nullptr;
-    st.length = 0;
 }
