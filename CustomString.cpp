@@ -3,7 +3,7 @@
 CustomString::CustomString () 
 {
     length = 0;
-    body   = new char[0];
+    body   = nullptr;
 }
 
 CustomString::CustomString (char ch) 
@@ -31,7 +31,7 @@ CustomString::CustomString (const char* ch)
 
     } else {
         length = 0;
-        body   = new char[0];
+        body   = nullptr;
     }
 }
 
@@ -60,6 +60,32 @@ CustomString::CustomString (CustomString&& st)
     st.length = 0;
 }
 
+char CustomString::operator[] (int id) const
+{
+    if (id >= length) throw 1;
+    return body[id];
+}
+
+// Sets string value
+
+CustomString& CustomString::operator= (const CustomString& st) 
+{
+    if(this == &st) return *this;
+
+    delete[] body;
+
+    length = st.len();
+    body   = new char[length];
+
+    for (int i = 0; i < length; i++) {
+        body[i] = st[i];
+    }
+
+    return *this;
+}
+
+// Move assignment operator
+
 CustomString& CustomString::operator=(CustomString&& st)
 {
     if (&st == this) return *this;
@@ -72,32 +98,6 @@ CustomString& CustomString::operator=(CustomString&& st)
     st.body   = nullptr;
     st.length = 0;
  
-    return *this;
-}
-
-char CustomString::operator[] (int id) const
-{
-    if (id >= length) throw 1;
-    return body[id];
-}
-
-// Sets string value
-
-CustomString& CustomString::operator= (const CustomString& st) 
-{
-    if(this == &st) {
-        return *this;
-    }
-
-    delete[] body;
-
-    length = st.len();
-    body   = new char[length];
-
-    for (int i = 0; i < length; i++) {
-        body[i] = st[i];
-    }
-
     return *this;
 }
 
@@ -296,17 +296,24 @@ int CustomString::len ( ) const
 
 CustomString& CustomString::resize (int size) 
 {
-    char* data = new char[size];
-    int   cont = length < size ? length : size;
+    if (size) {
+        char* data = new char[size];
+        int   cont = length < size ? length : size;
 
-    for (int i = 0; i < cont; i++) {
-        data[i] = body[i];
+        for (int i = 0; i < cont; i++) {
+            data[i] = body[i];
+        }
+
+        delete[] body;
+
+        length = size;
+        body   = data;
+    } else {
+        delete[] body;
+
+        length = 0;
+        body   = nullptr;
     }
-
-    delete[] body;
-
-    length = size;
-    body   = data;
 
     return *this;  
 }
@@ -316,7 +323,7 @@ CustomString& CustomString::clear ()
     delete[] body;
 
     length = 0;
-    body   = new char[0];
+    body   = nullptr;
 
     return *this;  
 }
@@ -335,6 +342,7 @@ void CustomString::swap (CustomString& st)
 
 int CustomString::substr (const CustomString& st)
 {
+    if (st.body == nullptr) throw 1;
     if (length < st.length) return -1;
 
     for (int i = 0; i < length; i++) {
@@ -357,7 +365,7 @@ int CustomString::substr (const CustomString& st)
 
 CustomString& CustomString::insert (const CustomString& st, int pos) 
 {
-    if (pos > length) throw 1;
+    if (body == nullptr || pos > length) throw 1;
 
     int   leng = length + st.len();
     char* data = new char[leng];

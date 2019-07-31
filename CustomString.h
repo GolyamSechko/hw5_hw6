@@ -29,6 +29,7 @@ public:
     CustomString& operator= (const CustomString& st);
 
     // Move assignment operator
+
     CustomString& operator=(CustomString&& st);
 
     // Append to string
